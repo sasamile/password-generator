@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Acme, Inter, Protest_Revolution } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -7,6 +7,18 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const protest = Protest_Revolution({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-protest",
+});
+
+const acme = Acme({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-acme",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,7 +33,9 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={`${inter.className} ${protest.variable} ${acme.variable}`}
+      >
         <SessionProvider session={session}>
           <ThemeProvider
             attribute="class"

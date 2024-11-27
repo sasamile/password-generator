@@ -43,7 +43,7 @@ function layoutRoutes({ children }: { children: React.ReactNode }) {
         (nav) => nav.url === pathname
       );
       setBreadcrumbTitle(foundNavItem ? foundNavItem.title : pathname);
-      setItemTitles([]); // Aseguramos que itemTitles esté vacío si no hay coincidencias
+      setItemTitles([]); 
     }
   }, [pathname]);
 

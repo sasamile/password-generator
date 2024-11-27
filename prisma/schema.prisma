@@ -56,8 +56,9 @@ model Element {
   isFavorite  Boolean
   urlWebsite  String?
   numberCard  String?
+  username   String?
   password    String?
-  notes       String
+  notes       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

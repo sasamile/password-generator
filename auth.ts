@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
 
-import {getUserById } from "./actions/user";
+import { getUserById } from "./actions/user";
 import { authConfig } from "./auth.config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -31,7 +31,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (session.user) {
         session.user.name = token.name as string;
-        session.user.image = token.picture as string;
+        session.user.image = token.image as string;
         session.user.email = token.email as string;
       }
 

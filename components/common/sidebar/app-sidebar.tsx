@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 
 import {
@@ -16,7 +14,7 @@ import { NavUser } from "./nav-user";
 import { SidebarNav } from "@/constants";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar() {
   const user = useCurrentUser();
   const navusedata = {
     name: user?.name ?? "",
@@ -24,7 +22,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     avatar: user?.image ?? "",
   };
   return (
-    <Sidebar variant="inset" collapsible="icon" {...props}>
+    <Sidebar variant="inset" collapsible="icon" >
       <SidebarHeader>
         <TeamSwitcher />
       </SidebarHeader>

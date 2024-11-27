@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        Protest: ["var(--font-protest)"],
+        acme: ["var(--font-acme)"],
+      },
       screens: {
         xs: "400px",
         sm: "640px",

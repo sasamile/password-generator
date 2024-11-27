@@ -17,18 +17,17 @@ function NewElement() {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold ">Safe password list</h1>
+        <h1 className="text-[28px] font-bold ">Safe password list</h1>
         <div>
           <Dialog open={open} onOpenChange={isOpen} >
             <DialogTrigger asChild>
-              {/* onClick={() => isOpen(true)} */}
               <Button>
                 <Plus />
                 New password
               </Button>
             </DialogTrigger>
             <DialogContent>
-              <ElementStepper open={open}/>
+              <ElementStepper open={open} isOpen={isOpen}/>
             </DialogContent>
           </Dialog>
         </div>

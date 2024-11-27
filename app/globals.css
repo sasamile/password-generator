@@ -111,3 +111,11 @@ html,
 .animate-progress {
   animation: progress 1.5s ease-in-out infinite;
 }
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Oculta la barra de desplazamiento en navegadores basados en WebKit */
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* Oculta la barra de desplazamiento en Internet Explorer y Edge */
+  scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
+}

@@ -5,17 +5,10 @@ export const DEFAULT_LOGIN_REDIRECT = "/";
 export const DEFAULT_AUTH_REDIRECT = "/sign-in";
 
 // Rutas públicas (accesibles sin autenticación)
-export const publicRoutes = [
-    "/sign-in",
-    "/api/auth/*"  
-];
-
+export const publicRoutes = ["/sign-in", "/sign-up", "/api/auth/*"];
 
 // Rutas de autenticación (para manejo de redirecciones)
-export const authRoutes = [
-    "/sign-in",
-    "/error"
-];
+export const authRoutes = ["/sign-in", "/sign-up", "/error"];
 
 // Prefijos para rutas API
 export const apiAuthPrefix = "/api/auth";

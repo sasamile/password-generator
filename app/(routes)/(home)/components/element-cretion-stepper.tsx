@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import {
   Select,
   SelectContent,
@@ -13,10 +13,12 @@ import {
   Bot,
   ChevronLeftIcon,
   ChevronRightIcon,
+  Clipboard,
   Combine,
   CreditCard,
   Eye,
   EyeOff,
+  Repeat,
   Shield,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -37,9 +39,18 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { formSchema } from "@/schemas";
+import { PasswordCreate } from "@/actions/element";
+import toast from "react-hot-toast";
 
-function ElementStepper({ open }: { open: boolean }) {
+function ElementStepper({
+  open,
+  isOpen,
+}: {
+  open: boolean;
+  isOpen: (value: boolean) => void;
+}) {
   const [step, setStep] = useState(1);
+  const [isPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -64,6 +75,7 @@ function ElementStepper({ open }: { open: boolean }) {
     name: "",
     password: "",
     isFavorite: false,
+    username: "",
     notes: "",
     numberCard: "",
     urlWebsite: "",
@@ -97,6 +109,7 @@ function ElementStepper({ open }: { open: boolean }) {
       name: "",
       password: "",
       isFavorite: false,
+      username: "",
       notes: "",
       numberCard: "",
       urlWebsite: "",
@@ -105,9 +118,45 @@ function ElementStepper({ open }: { open: boolean }) {
     setErrors({});
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+
+    try {
+      startTransition(async () => {
+        const response = await PasswordCreate(formData, typeElement);
+
+        if (response.status === 200) {
+          toast.success("Password created successfully");
+          isOpen(false);
+          resetForm();
+          setStep(1);
+        }
+        if (response?.error) {
+          toast.error(response.error);
+        }
+      });
+    } catch (error) {
+      toast.error("There was a problem with your application.");
+    }
+  };
+
+  const generateRandomPassword = () => {
+    const length = 12; // Longitud de la contraseña
+    const charset =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset[randomIndex];
+    }
+
+    setFormData((prev) => ({ ...prev, password })); // Actualiza el estado del formulario
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(formData.password).then(() => {
+      toast.success("Password copied to clipboard");
+    });
   };
 
   const renderStep = () => {
@@ -163,14 +212,25 @@ function ElementStepper({ open }: { open: boolean }) {
 
         return (
           <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                name="name"
+                placeholder="Google"
+                value={formData.name}
+                onChange={handleInputChange}
+                className="border-[#525252]"
+              />
+            </div>
             {(typeElement === "logins" || typeElement === "other") && (
               <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="username">username</Label>
                 <Input
-                  id="name"
-                  name="name"
-                  placeholder="Google"
-                  value={formData.name}
+                  id="username"
+                  name="username"
+                  placeholder="Santiago**"
+                  value={formData.username}
                   onChange={handleInputChange}
                   className="border-[#525252]"
                 />
@@ -245,11 +305,12 @@ function ElementStepper({ open }: { open: boolean }) {
                   onChange={handleInputChange}
                   value={formData.password}
                 />
+
                 <Button
                   variant="ghost"
                   type="button"
                   onClick={() => setShowPassword((current) => !current)}
-                  className="absolute right-1 hover:bg-transparent  p-0 mr-2"
+                  className="absolute right-32 hover:bg-transparent p-0 mr-2"
                 >
                   {showPassword ? (
                     <EyeOff className="min-w-5 min-h-5 shrink-0" />
@@ -257,6 +318,24 @@ function ElementStepper({ open }: { open: boolean }) {
                     <Eye className="min-w-5 min-h-5 shrink-0" />
                   )}
                 </Button>
+                <div className="relative flex">
+                  <Button
+                    variant="ghost"
+                    type="button"
+                    onClick={generateRandomPassword}
+                    className="ml-2"
+                  >
+                    <Repeat className="min-w-5 min-h-5 shrink-0" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    type="button"
+                    onClick={copyToClipboard}
+                    className="ml-2"
+                  >
+                    <Clipboard className="min-w-5 min-h-5 shrink-0" />
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -349,17 +428,20 @@ function ElementStepper({ open }: { open: boolean }) {
               (step === 1 && !typeElement) || // Deshabilitar si no hay tipo seleccionado
               (step === 2 && // Deshabilitar si faltan campos en el paso 2
                 typeElement === "logins" && // Para logins, todos los campos deben estar llenos
-                (!formData.name || // Asegúrate de que el nombre no esté vacío
+                (!formData.username ||
+                  !formData.name ||
                   !formData.password || // Asegúrate de que la contraseña no esté vacía
                   !formData.urlWebsite)) || // Asegúrate de que la URL no esté vacía
               (step === 2 && // Deshabilitar si faltan campos en el paso 2
                 typeElement === "card" && // Para logins, todos los campos deben estar llenos
-                (!formData.numberCard || // Asegúrate de que el nombre no esté vacío
+                (!formData.numberCard ||
+                  !formData.name ||
                   !formData.password || // Asegúrate de que la contraseña no esté vacía
                   !formData.urlWebsite)) || // Asegúrate de que la URL no esté vacía
               (step === 2 && // Deshabilitar si faltan campos en el paso 2
                 typeElement === "other" && // Para logins, todos los campos deben estar llenos
-                (!formData.name || // Asegúrate de que el nombre no esté vacío
+                (!formData.name ||
+                  !formData.username ||
                   !formData.password || // Asegúrate de que la contraseña no esté vacía
                   !formData.urlWebsite)) || // Asegúrate de que la URL no esté vacía
               (step === 3 &&

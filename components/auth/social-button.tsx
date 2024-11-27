@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 
-
 interface SocialButtonProps {
   label: string;
   onClick: () => void;
@@ -9,15 +8,11 @@ interface SocialButtonProps {
   iconClassName?: string;
 }
 
-export function SocialButton({
-  label,
-  label2,
-  onClick,
-}: SocialButtonProps) {
+export function SocialButton({ label, label2, onClick }: SocialButtonProps) {
   return (
     <Button
       size="lg"
-      className="relative  py-6 gap-5 w-[350px] "
+      className="relative  py-6 gap-5 max-w-sm  w-full"
       variant="default"
       onClick={onClick}
     >
@@ -33,7 +28,7 @@ export function SocialButton({
         className="w-5 h-5"
       />
 
-      <p className="text-sm text-white font-semibold select-none">{label}</p>
+      <p className="text-sm  font-semibold select-none">{label}</p>
     </Button>
   );
 }
