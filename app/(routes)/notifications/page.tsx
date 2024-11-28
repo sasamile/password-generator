@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { getNotificationsAndPasswordSecurity } from "@/actions/notifications";
 import { AlertTriangle, ShieldAlert, Lock } from "lucide-react";
-import Loading from "@/components/auth/loading";
+import Loading from "@/components/loading";
 
 export default function NotificationsPage() {
   const [data, setData] = useState<any>(null);

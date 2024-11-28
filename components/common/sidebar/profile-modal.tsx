@@ -19,7 +19,7 @@ import {
 import { uploadFile } from "@/actions/uploadthing-actions";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import Loading from "@/components/auth/loading";
+import Loading from "@/components/loading";
 import { cn } from "@/lib/utils";
 
 export interface UserData {

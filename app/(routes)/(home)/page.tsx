@@ -31,7 +31,7 @@ function Home() {
 
   useEffect(() => {
     updateData();
-  }, [user.id,data]);
+  }, [user.id]);
 
   return (
     <div>

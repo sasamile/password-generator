@@ -1,7 +1,7 @@
 "use client";
 
 import HeaderTitle from "@/components/auth/header-title";
-import Loading from "@/components/auth/loading";
+import Loading from "@/components/loading";
 import { SocialButton } from "@/components/auth/social-button";
 import { X } from "lucide-react";
 import { signIn } from "next-auth/react";
