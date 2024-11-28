@@ -27,8 +27,6 @@ function Home() {
         (item) => item.typeElement === "logins" || item.typeElement === "other"
       );
       setData(filteredData);
-    } else {
-      console.error("Error fetching data:", newData.error);
     }
   };
 

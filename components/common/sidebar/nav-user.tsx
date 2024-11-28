@@ -1,7 +1,14 @@
 "use client";
 
-import { useState } from 'react';
-import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react';
+import { useState } from "react";
+import {
+  BadgeCheck,
+  Bell,
+  ChevronsUpDown,
+  CreditCard,
+  LogOut,
+  Sparkles,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -24,8 +31,11 @@ import ProfileModal, { UserData } from "./profile-modal";
 import { useRouter } from "next/navigation";
 import { getUserByEmail } from "@/actions/user";
 import { getNotificationsAndPasswordSecurity } from "@/actions/notifications";
-import { BillingModal } from './billing-modal';
-
+import { BillingModal } from "./billing-modal";
+import { logout } from "@/actions/auth";
+import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -92,6 +102,14 @@ export function NavUser() {
 
   const openBillingModal = () => {
     setIsBillingModalOpen(true);
+  };
+
+  const handleClick = async () => {
+    try {
+      await logout();
+    } catch {
+      toast.error("Algo salió mal.");
+    }
   };
 
   return (
@@ -164,7 +182,10 @@ export function NavUser() {
                   <CreditCard />
                   Billing
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push('/notifications')} className="relative">
+                <DropdownMenuItem
+                  onClick={() => router.push("/notifications")}
+                  className="relative"
+                >
                   <Bell />
                   Notifications
                   {notificationCount > 0 && (
@@ -175,13 +196,13 @@ export function NavUser() {
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => signOut()}
-                className="cursor-pointer"
+              <Button
+                onClick={handleClick}
+                className="w-full "
               >
                 <LogOut />
                 Log out
-              </DropdownMenuItem>
+              </Button>
             </DropdownMenuContent>
           </DropdownMenu>
         </SidebarMenuItem>
@@ -197,4 +218,3 @@ export function NavUser() {
     </>
   );
 }
-

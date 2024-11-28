@@ -1,12 +1,12 @@
 "use server";
 
 import { z } from "zod";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/actions/user";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { DEFAULT_AUTH_REDIRECT, DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { LoginSchema, RegisterSchema } from "@/schemas";
 import { revalidatePath } from "next/cache";
 
@@ -83,4 +83,8 @@ export async function register(credentials: z.infer<typeof RegisterSchema>) {
 
     throw error;
   }
+}
+
+export async function logout() {
+  await signOut({ redirectTo: DEFAULT_AUTH_REDIRECT });
 }
