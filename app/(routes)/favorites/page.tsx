@@ -47,11 +47,11 @@ function Home() {
     // Si el tema es system, usamos systemTheme para determinar la imagen
     if (theme === "system") {
       return systemTheme === "dark"
-        ? "/icons/petting.svg"
-        : "/icons/petting2.svg";
+        ? "/icons/petting2.svg"
+        : "/icons/petting.svg";
     }
     // Si no es system, usamos la lógica original
-    return theme === "dark" ? "/icons/petting.svg" : "/icons/petting2.svg";
+    return theme === "dark" ? "/icons/petting2.svg" : "/icons/petting.svg";
   };
 
   return (
