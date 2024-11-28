@@ -12,7 +12,7 @@ export function SocialButton({ label, label2, onClick }: SocialButtonProps) {
   return (
     <Button
       size="lg"
-      className="relative  py-6 gap-5 max-w-sm  w-full"
+      className="relative  py-6 gap-5 w-full max-w-md"
       variant="default"
       onClick={onClick}
     >
