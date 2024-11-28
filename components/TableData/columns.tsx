@@ -2,7 +2,15 @@
 
 import { Element } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { Copy, Eye, EyeOff, File, MoreHorizontal, User } from "lucide-react";
+import {
+  Copy,
+  Eye,
+  EyeOff,
+  File,
+  MoreHorizontal,
+  Pencil,
+  User,
+} from "lucide-react";
 
 import toast from "react-hot-toast";
 
@@ -64,7 +72,6 @@ import {
 } from "react-icons/fa"; // Importa los iconos que necesites
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { create } from "zustand";
 import {
   Dialog,
   DialogTrigger,
@@ -76,8 +83,11 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import ElementIdPage from "../common/form-edit-element/element-id";
 
 // Define el tipo para el estado de la tienda
 interface PasswordStore {
@@ -88,12 +98,6 @@ interface PasswordStore {
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type ColumnsProps = Element;
-
-const usePasswordStore = create<PasswordStore>((set) => ({
-  isPasswordVisible: false,
-  togglePasswordVisibility: () =>
-    set((state) => ({ isPasswordVisible: !state.isPasswordVisible })),
-}));
 
 const iconMap: { [key: string]: JSX.Element } = {
   "github.com": <FaGithub className="w-4 h-4 " />,
@@ -152,16 +156,9 @@ const iconMap: { [key: string]: JSX.Element } = {
   "producthunt.com": <FaProductHunt className="w-4 h-4 " />,
   "hackernews.com": <FaHackerNews className="w-4 h-4 " />,
   "deviantart.com": <FaDeviantart className="w-4 h-4 " />, // Corregido el error tipográfico
-  "artstation.com": <FaArtstation className="w-4 h-4 pl-4" />,
+  "artstation.com": <FaArtstation className="w-4 h-4" />,
   "etsy.com": <FaEtsy className="w-4 h-4 " />,
   "discordapp.com": <FaDiscord className="w-4 h-4 " />,
-};
-
-// Custom hook para manejar la visibilidad de la contraseña
-const usePasswordVisibility = () => {
-  const { isPasswordVisible, togglePasswordVisibility } = usePasswordStore(); // Usar el store aquí
-
-  return { isPasswordVisible, togglePasswordVisibility };
 };
 
 export const columns: ColumnDef<ColumnsProps>[] = [
@@ -170,7 +167,7 @@ export const columns: ColumnDef<ColumnsProps>[] = [
     header: "Icons",
     cell: ({ row }) => {
       const url = row.original.urlWebsite;
-      let icon = <File />; // Icono por defecto
+      let icon = <File className="w-4 h-4" />; // Icono por defecto
 
       // Verifica si la URL no es nula
       if (url) {
@@ -252,10 +249,7 @@ export const columns: ColumnDef<ColumnsProps>[] = [
     cell: ({ row }) => {
       const password = row.original.password;
       const username = row.original.username;
-
-      const onEditElement = () => {
-        console.log("Edit Element");
-      };
+      const [open, isOpen] = useState(false);
 
       const copyItemClipboard = (item: string, name: string) => {
         navigator.clipboard.writeText(item);
@@ -287,7 +281,24 @@ export const columns: ColumnDef<ColumnsProps>[] = [
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => isOpen(true)}>
+                <div className="flex gap-2 items-center">
+                  <Pencil className="w-4 h-4" /> Edit
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
           </DropdownMenu>
+          <Dialog open={open} onOpenChange={isOpen}>
+            <DialogContent>
+              <ElementIdPage
+                elementID={row.original.id}
+                Open={open}
+                isOpen={isOpen}
+              />
+            </DialogContent>
+          </Dialog>
         </div>
       );
     },

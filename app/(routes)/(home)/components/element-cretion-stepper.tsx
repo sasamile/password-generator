@@ -18,38 +18,34 @@ import {
   CreditCard,
   Eye,
   EyeOff,
+  Pencil,
   Repeat,
   Shield,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { formSchema } from "@/schemas";
-import { PasswordCreate } from "@/actions/element";
+import { PasswordCreate, PasswordUpdate } from "@/actions/element";
 import toast from "react-hot-toast";
+import { FormeditElementProps } from "@/types";
+import { usePathname, useRouter } from "next/navigation";
 
 function ElementStepper({
   open,
   isOpen,
+  dataElement,
 }: {
   open: boolean;
   isOpen: (value: boolean) => void;
+  dataElement?: FormeditElementProps["dataElement"];
 }) {
   const [step, setStep] = useState(1);
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -118,15 +114,51 @@ function ElementStepper({
     setErrors({});
   };
 
+  useEffect(() => {
+    if (dataElement) {
+      const type = dataElement.typeElement as "logins" | "card" | "other";
+      setTypeElement(type);
+      setFormData({
+        name: dataElement.name!,
+        password: dataElement.password!,
+        isFavorite: dataElement.isFavorite!,
+        username: dataElement.username!,
+        notes: dataElement.notes!,
+        numberCard: dataElement.numberCard!,
+        urlWebsite: dataElement.urlWebsite!,
+      }); // Cargar los datos del formulario
+    } else {
+      resetForm(); // Reiniciar el formulario si no hay datos
+    }
+  }, [dataElement]);
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       startTransition(async () => {
-        const response = await PasswordCreate(formData, typeElement);
+        let response;
+        if (dataElement) {
+          response = await PasswordUpdate(
+            formData,
+            dataElement.id,
+            typeElement
+          );
+        } else {
+          response = await PasswordCreate(formData, typeElement); // Llamar a la función de creación
+        }
 
         if (response.status === 200) {
-          toast.success("Password created successfully");
+          toast.success(
+            `${
+              dataElement
+                ? "Password Update successfully"
+                : "Password created successfully"
+            }`
+          );
+          {
+            dataElement && router.refresh();
+          }
           isOpen(false);
           resetForm();
           setStep(1);
@@ -164,17 +196,25 @@ function ElementStepper({
       case 1:
         return (
           <div>
-            <h2 className="font-bold">Add new password</h2>
+            <h2 className="font-bold">
+              {dataElement ? "Edit password" : "Add new password"}
+            </h2>
 
             <div className="w-full rounded-xl bg-muted h-52 my-5 relative ">
               <Image
-                src={"/image/stepper.avif"}
+                src={`${
+                  dataElement ? "/image/stepper2.avif" : "/image/stepper.avif"
+                }`}
                 alt="Intro"
                 fill
                 className=" rounded-xl aspect-video object-cover"
               />
             </div>
-            <p>Choose the type of item you want to save!</p>
+            <p>
+              {dataElement
+                ? "The password is still of this type"
+                : "Choose the type of item you want to save!"}
+            </p>
             <div className="mt-5">
               <Select
                 onValueChange={(value) => {
@@ -310,7 +350,7 @@ function ElementStepper({
                   variant="ghost"
                   type="button"
                   onClick={() => setShowPassword((current) => !current)}
-                  className="absolute right-32 hover:bg-transparent p-0 mr-2"
+                  className="absolute right-28 hover:bg-transparent p-0 mr-2"
                 >
                   {showPassword ? (
                     <EyeOff className="min-w-5 min-h-5 shrink-0" />
@@ -318,12 +358,12 @@ function ElementStepper({
                     <Eye className="min-w-5 min-h-5 shrink-0" />
                   )}
                 </Button>
-                <div className="relative flex">
+                <div className="absolute flex right-0  ">
                   <Button
                     variant="ghost"
                     type="button"
                     onClick={generateRandomPassword}
-                    className="ml-2"
+                    className=" hover:bg-transparent"
                   >
                     <Repeat className="min-w-5 min-h-5 shrink-0" />
                   </Button>
@@ -331,7 +371,7 @@ function ElementStepper({
                     variant="ghost"
                     type="button"
                     onClick={copyToClipboard}
-                    className="ml-2"
+                    className=" hover:bg-transparent"
                   >
                     <Clipboard className="min-w-5 min-h-5 shrink-0" />
                   </Button>
@@ -394,8 +434,16 @@ function ElementStepper({
             </div>
 
             <div className="absolute right-5 bottom-7">
-              <Button type="submit">
-                <Bot /> Create Password
+              <Button type="submit" disabled={isPending}>
+                {dataElement ? (
+                  <>
+                    <Pencil /> Update Password
+                  </>
+                ) : (
+                  <>
+                    <Bot /> Create Password
+                  </>
+                )}
               </Button>
             </div>
           </div>

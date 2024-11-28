@@ -15,14 +15,9 @@ import { SidebarNav } from "@/constants";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 export function AppSidebar() {
-  const user = useCurrentUser();
-  const navusedata = {
-    name: user?.name ?? "",
-    email: user?.email ?? "",
-    avatar: user?.image ?? "",
-  };
+
   return (
-    <Sidebar variant="inset" collapsible="icon" >
+    <Sidebar variant="inset" collapsible="icon"  >
       <SidebarHeader>
         <TeamSwitcher />
       </SidebarHeader>
@@ -31,7 +26,7 @@ export function AppSidebar() {
         <NavProjects projects={SidebarNav.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={navusedata} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

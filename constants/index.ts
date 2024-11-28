@@ -35,14 +35,8 @@ export const SidebarNav = {
           icon: Star,
         },
         {
-          title: "Logins",
-          url: "/logins-elements",
-          icon: ContactRound,
-        },
-
-        {
           title: "Credit Card",
-          url: "/Credit-elements",
+          url: "/credit-elements",
           icon: CreditCard ,
         },
       ],
@@ -58,11 +52,6 @@ export const SidebarNav = {
       name: "Analytics",
       url: "/analytics",
       icon: PieChart,
-    },
-    {
-      name: "Algo mas",
-      url: "#",
-      icon: Map,
     },
   ],
 };

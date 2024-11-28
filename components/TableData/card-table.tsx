@@ -1,19 +1,20 @@
 import React from "react";
 import { DataTable } from "./data-table";
 import { Element } from "@prisma/client";
-import { columns } from "./columns";
+import { columnsCard } from "./columns-card";
+
 
 export type TableDataProps = {
   elements: Element[];
 };
 
-function TableData(props: TableDataProps) {
+function CardTable(props:TableDataProps ) {
   const { elements } = props;
   return (
-    <div className="py-8">
-      <DataTable columns={columns} data={elements} />
+    <div className="">
+      <DataTable columns={columnsCard} data={elements} />
     </div>
   );
 }
 
-export default TableData;
+export default CardTable;

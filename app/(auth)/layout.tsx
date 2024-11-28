@@ -59,7 +59,7 @@ function LayoutAuth({ children }: { children: React.ReactNode }) {
     }
   };
   return (
-    <div className="flex justify-center items-center h-screen p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)] dark:bg-black bg-[#ddd] ">
+    <div className="flex justify-center items-center h-screen p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)] dark:bg-black  ">
       <div className="md:w-1/2 flex justify-center items-center overflow-y-auto h-full pt-8 hide-scrollbar">
         {isLoading && <Loading />}
         <div className="flex flex-col min-h-screen">
