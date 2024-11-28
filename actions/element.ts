@@ -113,3 +113,16 @@ export async function fetchDataElementEdit(elementId: string) {
     return { error: "Something went wrong in the process!" };
   }
 }
+
+export async function deletePassword(id: string) {
+  try {
+    const element = await db.element.delete({
+      where: {
+        id,
+      },
+    });
+    return element;
+  } catch (error) {
+    return { error: "Something went wrong in the process!" };
+  }
+}

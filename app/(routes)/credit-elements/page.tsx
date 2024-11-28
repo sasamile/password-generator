@@ -29,7 +29,7 @@ function CrediElementListPage() {
 
   useEffect(() => {
     updateData();
-  }, [user.id]);
+  }, [user.id,data]);
 
   return (
     <div>

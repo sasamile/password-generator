@@ -24,7 +24,7 @@ export function StatsCards({ totalElements, averageStrength }: StatsCardsProps) 
   ]
 
   // Paleta de colores vibrante
-  const COLORS = ['#0C88DA', '#18181B', '#45B7D1', '#FFA07A', '#98D8C8']
+  const COLORS = ['#2563EB', '#60A8FB', '#45B7D1', '#FFA07A', '#98D8C8']
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">

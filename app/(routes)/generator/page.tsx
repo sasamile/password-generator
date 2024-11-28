@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { FaCopy, FaRandom } from "react-icons/fa";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 function GeneratorPage() {
   const [length, setLength] = useState(8);
@@ -41,7 +42,7 @@ function GeneratorPage() {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedValue);
-    alert("Copied to clipboard!");
+    toast.success("Copied to clipboard!");
   };
 
   return (
@@ -52,7 +53,6 @@ function GeneratorPage() {
       <div className="mb-4">
         <Label className="block mb-2">What do you want to generate?</Label>
         <select
-    
           value={type}
           onChange={(e) => {
             setType(e.target.value);
@@ -84,7 +84,9 @@ function GeneratorPage() {
             <Checkbox
               id="uppercase"
               checked={includeUppercase}
-              onCheckedChange={(checked) => setIncludeUppercase(checked as boolean)}
+              onCheckedChange={(checked) =>
+                setIncludeUppercase(checked as boolean)
+              }
             />
             <Label htmlFor="uppercase">Include Uppercase</Label>
           </div>
@@ -92,7 +94,9 @@ function GeneratorPage() {
             <Checkbox
               id="numbers"
               checked={includeNumbers}
-              onCheckedChange={(checked) => setIncludeNumbers(checked as boolean)}
+              onCheckedChange={(checked) =>
+                setIncludeNumbers(checked as boolean)
+              }
             />
             <Label htmlFor="numbers">Include Numbers</Label>
           </div>
@@ -100,7 +104,9 @@ function GeneratorPage() {
             <Checkbox
               id="symbols"
               checked={includeSymbols}
-              onCheckedChange={(checked) => setIncludeSymbols(checked as boolean)}
+              onCheckedChange={(checked) =>
+                setIncludeSymbols(checked as boolean)
+              }
             />
             <Label htmlFor="symbols">Include Symbols</Label>
           </div>
@@ -120,11 +126,12 @@ function GeneratorPage() {
       </div>
       <div className="mt-4 text-center">
         <strong>Result:</strong>
-        <div className="mt-2 text-lg font-semibold flex-wrap">{generatedValue}</div>
+        <div className="mt-2 text-lg font-semibold flex-wrap">
+          {generatedValue}
+        </div>
       </div>
     </Card>
   );
 }
 
 export default GeneratorPage;
-

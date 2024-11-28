@@ -9,6 +9,7 @@ import {
   File,
   MoreHorizontal,
   Pencil,
+  Trash,
   User,
 } from "lucide-react";
 
@@ -88,6 +89,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import ElementIdPage from "../common/form-edit-element/element-id";
+import { deletePassword } from "@/actions/element";
 
 // Define el tipo para el estado de la tienda
 interface PasswordStore {
@@ -250,10 +252,22 @@ export const columns: ColumnDef<ColumnsProps>[] = [
       const password = row.original.password;
       const username = row.original.username;
       const [open, isOpen] = useState(false);
+      const [openDelete, isOpenDelete] = useState(false);
 
       const copyItemClipboard = (item: string, name: string) => {
         navigator.clipboard.writeText(item);
         toast.success(`${name} Copied Success `);
+      };
+
+      const deletepassw = async () => {
+        try {
+          await deletePassword(row.original.id);
+          isOpenDelete(false);
+          toast.success("Password Deleted");
+          window.location.reload();
+        } catch (error) {
+          console.log(error);
+        }
       };
 
       return (
@@ -288,6 +302,11 @@ export const columns: ColumnDef<ColumnsProps>[] = [
                   <Pencil className="w-4 h-4" /> Edit
                 </div>
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => isOpenDelete(true)}>
+                <div className="flex gap-2 items-center">
+                  <Trash className="w-4 h-4" /> Delete
+                </div>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <Dialog open={open} onOpenChange={isOpen}>
@@ -297,6 +316,24 @@ export const columns: ColumnDef<ColumnsProps>[] = [
                 Open={open}
                 isOpen={isOpen}
               />
+            </DialogContent>
+          </Dialog>
+          <Dialog open={openDelete} onOpenChange={isOpenDelete}>
+            <DialogContent>
+              <div>
+                <p className="text-lg font-bold">Delete Element</p>
+                <p className="text-sm">
+                  Are you sure you want to delete this element?
+                </p>
+                <div className="flex gap-2 items-center mt-4">
+                  <Button variant={"ghost"} onClick={() => isOpenDelete(false)}>
+                    Cancel
+                  </Button>
+                  <Button variant={"destructive"} onClick={deletepassw}>
+                    Delete
+                  </Button>
+                </div>
+              </div>
             </DialogContent>
           </Dialog>
         </div>

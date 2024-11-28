@@ -1,0 +1,27 @@
+{
+  "theme_color": "#8936FF",
+  "background_color": "#2EC6FE",
+  "icons": [
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "icon512_maskable.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "512x512",
+      "src": "icon512_rounded.png",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait",
+  "display": "minimal-ui",
+  "dir": "auto",
+  "lang": "es-419",
+  "name": "PasswordDev",
+  "short_name": "PasswordDev",
+  "scope": "/",
+  "start_url": "https://password-generator-gold-mu-99.vercel.app/",
+  "id": "https://password-generator-gold-mu-99.vercel.app/"
+}
