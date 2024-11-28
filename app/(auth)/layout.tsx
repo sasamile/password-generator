@@ -105,17 +105,13 @@ function LayoutAuth({ children }: { children: React.ReactNode }) {
               </span>
             </div>
           </div>
-          <div className="flex xs:flex-row flex-col items-center justify-center gap-3 pb-8 w-full max-w-md mx-auto">
+          <div className="flex flex-col items-center justify-center gap-3 pb-8 w-full">
             <SocialButton
               label="Log in with Google"
               label2="Google"
               onClick={() => handleLogin("google")}
             />
-            <SocialButton
-              label="Log in with Microsoft"
-              label2="Microsoft"
-              onClick={() => handleLogin("microsoft-entra-id")}
-            />
+          
           </div>
         </div>
       </div>
