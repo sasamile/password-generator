@@ -49,9 +49,9 @@ function Home() {
       <h1 className="text-[28px] font-bold ">List of favorite passwords</h1>
 
       {favorites.length === 0 ? (
-        <div className="flex flex-col items-center justify-center ">
+        <div className="flex mt-12 flex-col items-center justify-center ">
           <Image
-            src={"/icons/petting2.svg"}
+            src={"/icons/petting.svg"}
             alt="logoespera"
             width={300}
             height={400}
