@@ -6,12 +6,11 @@ import { Element } from "@prisma/client";
 import { fetchData } from "@/actions/element";
 import CardTable from "@/components/TableData/card-table";
 import TableData from "@/components/TableData/table-data";
-import { useTheme } from "next-themes";
 import Image from "next/image";
 
 function Home() {
   const user = useCurrentUser();
-  const { theme, systemTheme } = useTheme();
+  
 
   if (!user) {
     return redirect("/");
@@ -43,16 +42,7 @@ function Home() {
     updateData();
   }, [user.id]);
 
-  const getImageSource = () => {
-    // Si el tema es system, usamos systemTheme para determinar la imagen
-    if (theme === "system") {
-      return systemTheme === "dark"
-        ? "/icons/petting2.svg"
-        : "/icons/petting.svg";
-    }
-    // Si no es system, usamos la lógica original
-    return theme === "dark" ? "/icons/petting2.svg" : "/icons/petting.svg";
-  };
+  
 
   return (
     <div>
@@ -61,7 +51,7 @@ function Home() {
       {favorites.length === 0 ? (
         <div className="flex flex-col items-center justify-center ">
           <Image
-            src={getImageSource()}
+            src={"/icons/petting2.svg"}
             alt="logoespera"
             width={300}
             height={400}
