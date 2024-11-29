@@ -8,11 +8,11 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { Element } from "@prisma/client";
 import { fetchData } from "@/actions/element";
 import Image from "next/image";
-import { useTheme } from "next-themes";
+
 
 function Home() {
   const user = useCurrentUser();
-  const { theme, systemTheme } = useTheme();
+  
 
   if (!user) {
     return redirect("/");
@@ -34,23 +34,13 @@ function Home() {
     updateData();
   }, [user.id, data]);
 
-  function getImageSource() {
-    // Si el tema es system, usamos systemTheme para determinar la imagen
-    if (theme === "system") {
-      return systemTheme === "dark"
-        ? "/icons/Doggie.svg" // Cambiado a Doggie.svg para el tema oscuro
-        : "/icons/Doggie2.svg"; // Se mantiene Doggie2.svg para el tema claro
-    }
-    // Si no es system, usamos la lógica original
-    return theme === "dark" ? "/icons/Doggie.svg" : "/icons/Doggie2.svg";
-  }
   return (
     <div>
       <NewElement title={"Safe password list"} />
       {data.length === 0 ? (
         <div className="flex flex-col items-center justify-center ">
           <Image
-            src={getImageSource()}
+            src={"/icons/Doggie.svg"}
             alt="logoespera"
             width={300}
             height={400}
