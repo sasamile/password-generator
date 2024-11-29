@@ -9,7 +9,7 @@ function NewElement({ title }: { title: string }) {
   const [open, isOpen] = useState(false);
   return (
     <div>
-      <div className="flex justify-between items-center">
+      <div className="flex max-md:flex-col justify-between items-center">
         <h1 className="text-[28px] font-bold ">{title}</h1>
         <div>
           <Dialog open={open} onOpenChange={isOpen}>
