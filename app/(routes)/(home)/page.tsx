@@ -38,7 +38,7 @@ function Home() {
     <div>
       <NewElement title={"Safe password list"} />
       {data.length === 0 ? (
-        <div className="flex flex-col items-center justify-center ">
+        <div className="flex flex-col items-center justify-center mt-12 ">
           <Image
             src={"/icons/Doggie.svg"}
             alt="logoespera"
