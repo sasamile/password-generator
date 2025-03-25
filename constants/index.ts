@@ -1,18 +1,10 @@
 import {
-  AudioWaveform,
   BookOpen,
-  Bot,
-  Command,
-  ContactRound,
+  CommandIcon,
   CreditCard,
-  Frame,
-  GalleryVerticalEnd,
   LayoutGridIcon,
   ListIcon,
-  Map,
   PieChart,
-  Settings2,
-  SquareTerminal,
   Star,
 } from "lucide-react";
 
@@ -45,6 +37,11 @@ export const SidebarNav = {
       title: "Generator",
       url: "/generator",
       icon: BookOpen,
+    },
+    {
+      title: "Cifrados",
+      url: "/cifrados",
+      icon: CommandIcon,
     },
   ],
   projects: [

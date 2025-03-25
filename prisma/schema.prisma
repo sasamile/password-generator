@@ -64,3 +64,13 @@ model Element {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model Message {
+  id              String   @id @default(cuid())
+  originalText    String
+  encryptedText   String
+  isEncrypted     Boolean
+  encryptionMethod String
+  encryptionKey   String?
+  createdAt       DateTime @default(now())
+}
